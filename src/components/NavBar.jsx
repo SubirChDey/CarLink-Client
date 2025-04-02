@@ -29,18 +29,20 @@ const NavBar = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-6">
-                        <NavLink to={'/'}>Home</NavLink>
-                        <NavLink to={'/available-cars'}>Available Cars</NavLink>
+                        <NavLink to={'/'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0"} >Home</NavLink>
+
+                        <NavLink to={'/available-cars'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0"} >Available Cars</NavLink>
                         {
                             user && user?.email ?
-                                <NavLink to={'/add-cars'}> Add Car</NavLink> : ""
+                                <NavLink to={'/add-cars'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0"}> Add Car</NavLink> : ""
                         }
                         {
-                            user && user?.email ? <NavLink to={'/my-cars'}> My Cars</NavLink> : ""
+                            user && user?.email ? <NavLink to={'/my-cars'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0" }> My Cars</NavLink> : ""
                         }
                         {
-                            user && user?.email ? <NavLink to={'/my-bookings'}> My Bookings</NavLink> : ""
+                            user && user?.email ? <NavLink to={'/my-bookings'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0" }> My Bookings</NavLink> : ""
                         }
+                        
                     </ul>
                 </div>
                 <div className="navbar-end">
