@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 const NavBar = () => {
     return (
         <div>
-            <div className="navbar bg-base-100 shadow-sm">
+            <div className="navbar bg-[#191919] text-white shadow-sm">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -16,31 +16,23 @@ const NavBar = () => {
                             <NavLink>Available Cars</NavLink>
                             <NavLink> Add Car</NavLink>
                             <NavLink> My Cars</NavLink>
-                            <NavLink> My Bookings</NavLink>
-                            {/* <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li> */}
+                            <NavLink> My Bookings</NavLink>                           
+                           
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">CarLink</a>
+                    <Link to={'/'} className="btn btn-ghost text-xl">CarLink</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-6">
-                        <NavLink>Home</NavLink>
-                        <NavLink>Available Cars</NavLink>
-                        <NavLink> Add Car</NavLink>
-                        <NavLink> My Cars</NavLink>
-                        <NavLink> My Bookings</NavLink>
+                        <NavLink to={'/'}>Home</NavLink>
+                        <NavLink to={'/available-cars'}>Available Cars</NavLink>
+                        <NavLink to={'/add-cars'}> Add Car</NavLink>
+                        <NavLink to={'/my-cars'}> My Cars</NavLink>
+                        <NavLink to={'/my-bookings'}> My Bookings</NavLink>
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <Link className="btn">Log in</Link>
+                    <Link to={'/login'} className="btn">Log in</Link>
                 </div>
             </div>
         </div>
