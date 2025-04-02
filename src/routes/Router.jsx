@@ -8,6 +8,7 @@ import MyBookings from "../pages/MyBookings";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoutes from "./PrivateRoutes";
+import Home from "../pages/Home";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
         element: <MainLayouts></MainLayouts>,
         errorElement: <ErrorPage></ErrorPage>,
         children: [
+            {
+                path: "/",
+                element: <Home></Home>
+            },
             {
                 path: "/available-cars",
                 element: <AvailableCars></AvailableCars>
