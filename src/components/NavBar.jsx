@@ -1,6 +1,11 @@
+import { useContext } from "react"
 import { Link, NavLink } from "react-router-dom"
+import { AuthContext } from "../provider/AuthProvider"
+import { FaUserTie } from "react-icons/fa"
+import { Tooltip } from "react-tooltip"
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext)
     return (
         <div>
             <div className="navbar bg-[#191919] text-white shadow-sm">
@@ -16,8 +21,8 @@ const NavBar = () => {
                             <NavLink>Available Cars</NavLink>
                             <NavLink> Add Car</NavLink>
                             <NavLink> My Cars</NavLink>
-                            <NavLink> My Bookings</NavLink>                           
-                           
+                            <NavLink> My Bookings</NavLink>
+
                         </ul>
                     </div>
                     <Link to={'/'} className="btn btn-ghost text-xl">CarLink</Link>
@@ -31,8 +36,12 @@ const NavBar = () => {
                         <NavLink to={'/my-bookings'}> My Bookings</NavLink>
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <Link to={'/login'} className="btn">Log in</Link>
+                <div className="navbar-end">                    
+                    {
+                        user && user?.email ? <div className="flex gap-2 items-center"> <img className="rounded-full w-10 h-10 hidden md:block" data-tooltip-id="tooltip-settings"
+                            data-tooltip-content={`Hi ${user.displayName || 'User'}! `} src={user?.photoURL} alt="" /> <Link to='/' className="btn btn-success text-white" onClick={logOut}> Log Out</Link></div> : <div className="flex gap-2 items-center"><FaUserTie className="w-10 h-10 hidden md:block"></FaUserTie> <Link to='/login' className="btn btn-success text-white">Login</Link></div>
+                    }
+                    <Tooltip id="tooltip-settings" place="bottom" effect="solid" />
                 </div>
             </div>
         </div>

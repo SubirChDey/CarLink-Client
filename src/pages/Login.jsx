@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { AuthContext } from "../provider/AuthProvider";
 
 
 
@@ -8,6 +11,61 @@ const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const { userLogin, setUser, googleLogin } = useContext(AuthContext)
+    const location = useLocation();
+    const navigate = useNavigate();
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        userLogin(email, password)
+            .then((result) => {
+                const user = result.user;
+                setUser(user);
+                Swal.fire({                    
+                    icon: "success",
+                    title: "Login Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate(location?.state ? location.state : '/');
+            })
+            .catch(error => {                            
+
+                if (error?.code === "auth/invalid-credential") {
+                    setErrorMessage("Invalid email or password. Please check again!")
+                    toast.error("Invalid email or password. Please check again!");
+                }
+                else if (error?.code === "auth/too-many-requests") {
+                    setErrorMessage("Too many failed attempts. Please try again later!")
+                    toast.error("Too many failed attempts. Please try again later!");
+                }
+                else {
+                    setErrorMessage(`Error: ${error.message}`);
+                    toast.error(`Error: ${error.message}`);
+                }
+            });
+
+    };
+
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(() => {
+                Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "Login Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate(location?.state ? location.state : '/');
+            })
+            .catch(error => toast.error('Login Failed'));
+    };
 
     return (
         <div>
@@ -19,7 +77,7 @@ const Login = () => {
                     </div>
 
                     <div className="card w-11/12 mx-auto bg-base-300 lg:max-w-screen-md shrink-0 items-center">
-                        <form className="card-body w-full">
+                        <form onSubmit={handleSubmit} className="card-body w-full">
                             <div className="flex flex-col w-full">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -64,7 +122,7 @@ const Login = () => {
                             </div>
                             <div className="flex flex-col justify-center items-center">
                                 <p>Or</p>
-                                <button className="btn">Continue with Google
+                                <button onClick={handleGoogleLogin} className="btn">Continue with Google
                                     <img width="48" height="48" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo" />
                                 </button>
                             </div>
