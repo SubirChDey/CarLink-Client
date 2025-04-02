@@ -31,12 +31,19 @@ const NavBar = () => {
                     <ul className="menu menu-horizontal px-1 gap-6">
                         <NavLink to={'/'}>Home</NavLink>
                         <NavLink to={'/available-cars'}>Available Cars</NavLink>
-                        <NavLink to={'/add-cars'}> Add Car</NavLink>
-                        <NavLink to={'/my-cars'}> My Cars</NavLink>
-                        <NavLink to={'/my-bookings'}> My Bookings</NavLink>
+                        {
+                            user && user?.email ?
+                                <NavLink to={'/add-cars'}> Add Car</NavLink> : ""
+                        }
+                        {
+                            user && user?.email ? <NavLink to={'/my-cars'}> My Cars</NavLink> : ""
+                        }
+                        {
+                            user && user?.email ? <NavLink to={'/my-bookings'}> My Bookings</NavLink> : ""
+                        }
                     </ul>
                 </div>
-                <div className="navbar-end">                    
+                <div className="navbar-end">
                     {
                         user && user?.email ? <div className="flex gap-2 items-center"> <img className="rounded-full w-10 h-10 hidden md:block" data-tooltip-id="tooltip-settings"
                             data-tooltip-content={`Hi ${user.displayName || 'User'}! `} src={user?.photoURL} alt="" /> <Link to='/' className="btn btn-success text-white" onClick={logOut}> Log Out</Link></div> : <div className="flex gap-2 items-center"><FaUserTie className="w-10 h-10 hidden md:block"></FaUserTie> <Link to='/login' className="btn btn-success text-white">Login</Link></div>
