@@ -13,7 +13,7 @@ const Banner = () => {
             <div className="hero-content text-white text-center relative z-20">
                 <div className="md:w-4/5">
                     <p className="text-[#FF3600] font-bold text-lg"> Welcome To CarLink</p>
-                    <h1 className="mb-5 md:mb-8 text-5xl md:text-7xl font-bold">Maximize Your Savings on Car Rentals</h1>
+                    <h1 className="mb-5 md:mb-8 text-5xl md:text-7xl font-bold">Start Your Journey in Premium Style</h1>
                     <p className="mb-5 text-lg">
                     Whether you're planning a business trip, a vacation, or simply require a reliable vehicle <br /> for the day, we provide a wide range of premium cars to cater to your needs.
                     </p>
