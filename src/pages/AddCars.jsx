@@ -1,10 +1,42 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { AuthContext } from "../provider/AuthProvider";
 
 
 const AddCars = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const { user } = useContext(AuthContext);
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log('submit clicked');
+    const form = e.target
+    const carModel = form.carModel.value
+    const dailyRentalPrice = parseFloat(form.dailyRentalPrice.value)
+    const vehicleRegistrationNumber = form.vehicleRegistrationNumber.value
+    const addedDate = startDate
+    const availability = form.availability.value
+    const features = form.features.value
+    const description = form.description.value
+    const bookingCount = parseFloat(form.bookingCount.value)
+    const carImage = form.carImage.value
+    const location = form.location.value
+    const userEmail = user.email
+    const userName = user.displayName
+
+    const formData = {
+      carModel, dailyRentalPrice, vehicleRegistrationNumber, addedDate, availability, features, description, bookingCount, carImage, location, userEmail, userName
+
+    }
+    console.log(formData);
+    
+
+
+  }
+
+
+
 
   return (
     <div className="bg-[#191919] pb-20">
@@ -20,7 +52,7 @@ const AddCars = () => {
         </p>
       </div>
       <div className="w-full md:w-3/5 mx-auto bg-[#060b17] p-8 space-y-3 rounded-xl">
-        <form className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
 
           <div className="space-y-1 text-sm">
             <label
@@ -57,16 +89,37 @@ const AddCars = () => {
 
           <div className="space-y-1 text-sm">
             <label
-              htmlFor="availabilityDate"
+              htmlFor="addedDate"
               className="block text-white font-bold mb-2"
             >
-              Availability Date
+              Added Date
             </label>
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               className="bg-[#1F2937] text-white px-4 py-2 rounded-md w-full"
             />
+          </div>
+
+          <div className="space-y-1 text-sm">
+            <label
+              htmlFor="availability"
+              className="block text-white font-bold mb-2"
+            >
+              Availability
+            </label>
+            <select
+              type="text"
+              name="availability"
+              id="availability"
+              className="w-full bg-[#1F2937] text-white px-4 py-2 rounded-md focus:border-red-600"
+            >
+              <option disabled selected value="">
+                Select Availability
+              </option>
+              <option value="Available">Available</option>
+              <option value="Not Available">Not Available</option>
+            </select>
           </div>
 
           <div className="space-y-1 text-sm">
@@ -126,9 +179,10 @@ const AddCars = () => {
             </label>
             <input
               type="text"
-              name="features"
-              id="features"
+              name="bookingCount"
+              id="bookingCount"
               placeholder="0"
+              defaultValue={"0"}
               readOnly
               className="w-full bg-[#1F2937] text-white px-4 py-2 rounded-md focus:border-red-600"
             />
@@ -136,15 +190,15 @@ const AddCars = () => {
 
           <div className="space-y-1 text-sm">
             <label
-              htmlFor="image"
+              htmlFor="carImage"
               className="block text-white font-bold mb-2"
             >
               Image
             </label>
             <input
               type="url"
-              name="image"
-              id="image"
+              name="carImage"
+              id="carImage"
               placeholder="Enter Image URL"
               className="w-full bg-[#1F2937] text-white px-4 py-2 rounded-md focus:border-red-600"
             />
