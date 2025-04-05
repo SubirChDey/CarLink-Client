@@ -1,7 +1,10 @@
+import { useLoaderData } from "react-router-dom"
 
 const CarDetails = () => {
+    const carDetailsInfo = useLoaderData()
+    const {carModel } = carDetailsInfo;
   return (
-    <div>CarDetails</div>
+    <div>car detail: {carModel}</div>
   )
 }
 

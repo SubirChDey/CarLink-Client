@@ -18,7 +18,7 @@ const AddCars = () => {
     const vehicleRegistrationNumber = form.vehicleRegistrationNumber.value
     const addedDate = startDate
     const availability = form.availability.value
-    const features = form.features.value
+    const features = form.features.value.split(",").map((feature) => feature.trim());
     const description = form.description.value
     const bookingCount = parseFloat(form.bookingCount.value)
     const carImage = form.carImage.value
