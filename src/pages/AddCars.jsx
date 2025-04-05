@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../provider/AuthProvider";
+import axios from "axios";
 
 
 const AddCars = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     console.log('submit clicked');
     const form = e.target
@@ -29,8 +30,12 @@ const AddCars = () => {
       carModel, dailyRentalPrice, vehicleRegistrationNumber, addedDate, availability, features, description, bookingCount, carImage, location, userEmail, userName
 
     }
-    console.log(formData);
-    
+
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/add-cars`, formData)
+
+    console.log(data);
+
+
 
 
   }
@@ -181,7 +186,6 @@ const AddCars = () => {
               type="text"
               name="bookingCount"
               id="bookingCount"
-              placeholder="0"
               defaultValue={"0"}
               readOnly
               className="w-full bg-[#1F2937] text-white px-4 py-2 rounded-md focus:border-red-600"
