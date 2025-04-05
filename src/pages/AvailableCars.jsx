@@ -15,13 +15,13 @@ const AvailableCars = () => {
   }
 
   return (
-    <div>
+    <div className="w-11/12 mx-auto">
       <div>
         <h3>All Cars</h3>
       </div>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {
-          cars.map(car => <AvailableCarsCard car={car} > </AvailableCarsCard>)
+          cars.map(car => <AvailableCarsCard key={car._id} car={car} > </AvailableCarsCard>)
         }
       </div>
     </div>

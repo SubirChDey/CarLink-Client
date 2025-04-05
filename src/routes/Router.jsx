@@ -9,6 +9,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoutes from "./PrivateRoutes";
 import Home from "../pages/Home";
+import CarDetails from "../pages/CarDetails";
 
 const router = createBrowserRouter([
     {
@@ -43,7 +44,12 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register></Register>
+            },
+            {
+                path: "/cars/:id",
+                element: <CarDetails></CarDetails>
             }
+
         ]
     },
 ]);
