@@ -11,7 +11,6 @@ const AddCars = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    console.log('submit clicked');
     const form = e.target
     const carModel = form.carModel.value
     const dailyRentalPrice = parseFloat(form.dailyRentalPrice.value)
