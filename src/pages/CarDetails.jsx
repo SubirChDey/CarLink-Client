@@ -116,7 +116,7 @@ const CarDetails = () => {
                 icon: "success",
                 confirmButtonText: "Cool",
               });
-              navigate(`/myBookings/${user?.email}`);
+              navigate(`/my-bookings`);
               form.reset();
             }
           });

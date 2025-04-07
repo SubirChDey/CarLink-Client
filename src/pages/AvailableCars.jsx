@@ -33,13 +33,6 @@ const AvailableCars = () => {
     car.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // useEffect(() => {
-  //   const filteredCars = cars.filter(car =>
-  //     car.carModel.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     car.location.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredCars(filteredCars);
-  // }, [searchTerm, cars]);
 
   const sortedCars = [...filteredCars].sort((a, b) => {
     switch (sortOption) {
