@@ -14,36 +14,19 @@ import Swal from "sweetalert2";
 
 const CarDetails = () => {
   const carDetailsInfo = useLoaderData('');
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  // const [userName, userEmail] = user;
 
   if (!user) {
-    return <LoadingSpinner/>
-  }  
+    return <LoadingSpinner />
+  }
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const today = new Date().toISOString().slice(0, 16);
-  const {_id, carModel, carImage, vehicleRegistrationNumber, addedDate, dailyRentalPrice, availability, features, description, location, userEmail, userName } = carDetailsInfo;
+  const { _id, carModel, carImage, vehicleRegistrationNumber, addedDate, dailyRentalPrice, availability, features, description, location, userEmail, userName } = carDetailsInfo;
   console.log(carDetailsInfo);
-
-
-  // const renderFeatures = (featuresString) => {
-  //   if (!featuresString) return null;
-  //   const featuresArray = featuresString
-  //     .split(",")
-  //     .map((feature) => feature.trim());
-  //   return (
-  //     <ul className="list-disc pl-5">
-  //       {featuresArray.map((feature, index) => (
-  //         <li key={index}>{feature}</li>
-  //       ))}
-  //     </ul>
-  //   );
-  // };
-
 
 
   useEffect(() => {
@@ -55,6 +38,20 @@ const CarDetails = () => {
       setTotalPrice(total);
     }
   }, [dailyRentalPrice, endDate, startDate]);
+
+
+  const renderFeatures = (featuresArray) => {
+    if (!Array.isArray(featuresArray)) return null;
+
+    return (
+      <ul className="list-disc pl-5 text-white">
+        {featuresArray.map((feature, index) => (
+          <li key={index}>{feature}</li>
+        ))}
+      </ul>
+    );
+  };
+
 
   const handleBooking = (e) => {
     e.preventDefault();
@@ -98,6 +95,8 @@ const CarDetails = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Confirm Booking",
+      background: "#191919",
+      color: "white"
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${import.meta.env.VITE_API_URL}/carBooking`, {
@@ -126,15 +125,14 @@ const CarDetails = () => {
 
 
 
-
   return (
-    <div>
-      <div className="mt-4 md:mt-6 lg:mt-8 mb-12">
-        <div className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 mb-5 ">
-          <h1 className={`text-2xl lg:text-5xl font-bold `}>{carModel}</h1>
+    <div className="bg-[#191919] py-10">
+      <div className="mt-4 md:mt-6 lg:mt-8 mb-12 ">
+        <div className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 mb-5">
+          <h1 className={`text-2xl lg:text-5xl font-bold text-white`}>{carModel}</h1>
         </div>
-        <div className="card p-6  w-11/12 mx-auto lg:max-w-screen-md shrink-0 shadow-2xl border">
-          {/* grid for photo and summary */}
+        <div className="card p-6 w-11/12 mx-auto lg:max-w-screen-md shrink-0 shadow-2xl border bg-black text-white">
+          
           <div className="flex flex-col-reverse md:grid md:grid-cols-1 gap-6">
             <div className="w-full h-80 md:h-96 lg:h-[30rem]">
               <img
@@ -147,49 +145,49 @@ const CarDetails = () => {
               <h1 className="text-xl lg:text-2xl font-extrabold">{carModel}</h1>
               <div>
                 <div className="overflow-x-auto">
-                  <table className="table md:text-xl md:w-8/12 mx-auto">
+                  <table className="table md:text-xl md:w-8/12 mx-auto border-collapse border border-gray-600">
                     <tbody>
                       {/* row 1 */}
-                      <tr>
-                        <td className="text-primary text-xl">
+                      <tr className="border-b border-gray-600">
+                        <td className="text-primary text-xl p-2">
                           <IoMdPricetags />
                         </td>
-                        <td className={`font-bold `}>Reg No :</td>
-                        <td>{vehicleRegistrationNumber}</td>
+                        <td className="font-bold p-2">Reg No :</td>
+                        <td className="p-2">{vehicleRegistrationNumber}</td>
                       </tr>
                       {/* row 2 */}
-                      <tr>
-                        <td className="text-primary text-xl">
+                      <tr className="border-b border-gray-600">
+                        <td className="text-primary text-xl p-2">
                           <FaRegClock />
                         </td>
-                        <td className={`font-bold `}>Date Posted:</td>
-                        <td>{moment(addedDate).format("MMM Do YY")}</td>
+                        <td className="font-bold p-2">Date Posted:</td>
+                        <td className="p-2">{moment(addedDate).format("MMM Do YY")}</td>
                       </tr>
                       {/* row 3 */}
-                      <tr>
-                        <td className="text-primary text-xl">
+                      <tr className="border-b border-gray-600">
+                        <td className="text-primary text-xl p-2">
                           <PiCurrencyDollarFill />
                         </td>
-                        <td className={`font-bold `}>Price :</td>
-                        <td>${dailyRentalPrice}/day</td>
+                        <td className="font-bold p-2">Price :</td>
+                        <td className="p-2">${dailyRentalPrice}/day</td>
                       </tr>
                       {/* row 4 */}
-                      <tr>
-                        <td className="text-primary text-xl">
+                      <tr className="border-b border-gray-600">
+                        <td className="text-primary text-xl p-2">
                           <MdEventAvailable />
                         </td>
-                        <td className={`font-bold `}>Availability :</td>
-                        <td>
+                        <td className="font-bold p-2">Availability :</td>
+                        <td className="p-2">
                           {availability === true ? "Available" : "Unavailable"}
                         </td>
                       </tr>
-                      {/* row 4 */}
+                      {/* row 5 */}
                       <tr>
-                        <td className="text-primary text-xl">
+                        <td className="text-primary text-xl p-2">
                           <MdOutlineLocationOn />
                         </td>
-                        <td className={`font-bold `}>Location :</td>
-                        <td> {location}</td>
+                        <td className="font-bold p-2">Location :</td>
+                        <td className="p-2">{location}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -197,11 +195,9 @@ const CarDetails = () => {
               </div>
             </div>
           </div>
-          {/*  */}
+
           <div className="mt-6 space-y-3">
-            <h1 className="text-xl lg:text-2xl font-extrabold">
-              {carModel} Details:
-            </h1>
+            <h1 className="text-xl lg:text-2xl font-extrabold text-white">{carModel} Details:</h1>
             <div className="">
               <div className="flex items-center gap-2">
                 <span className="text-primary text-xl">
@@ -214,46 +210,41 @@ const CarDetails = () => {
                 <span className="text-primary text-xl">
                   <MdAlternateEmail />
                 </span>
-                <span>Contact Owner : </span>
+                <span>Contact Owner :</span>
                 <span>{userEmail}</span>
               </div>
-
             </div>
-            <p>
-              <span className="text-lg">Features:</span>{" "}
-              {/* {renderFeatures(features)} */}
-            </p>
-            <p>Description : {description}</p>
+         
+            <div>
+              <p className="text-lg text-white">Features:</p>
+              {renderFeatures(features)}
+            </div>
+
+            <p className="text-white">Description : {description}</p>
           </div>
+
           {user ? (
             <div>
               <form onSubmit={handleBooking}>
                 {availability ? (
                   <div className="flex justify-end items-center gap-4">
-                    <p className="text-center my-5 text-sm">
+                    <p className="text-center my-5 text-sm text-white">
                       Please Fill the Form below before Confirming Booking
                     </p>
-                    <button type="submit"
-                      onClick={handleBookNow}
-                      className="btn bg-primary "
-                    >
+                    <button type="submit" onClick={handleBookNow} className="btn bg-primary">
                       <SiBigcartel />
                       Book Now
                     </button>
                   </div>
                 ) : (
-                  <p className="my-5 text-end text-red-700">
-                    Sorry, This car is not available for Booking
-                  </p>
+                  <p className="my-5 text-end text-red-700">Sorry, This car is not available for Booking</p>
                 )}
                 <div>
                   <div>
                     <div className="grid lg:grid-cols-2 gap-4">
                       <div className="">
                         <label className="label">
-                          <span className="label-text text-xl font-normal ">
-                            Pick Start Date
-                          </span>
+                          <span className="label-text text-xl font-normal text-white">Pick Start Date</span>
                         </label>
                         <input
                           name="startDate"
@@ -264,16 +255,14 @@ const CarDetails = () => {
                           }}
                           min={today}
                           max={endDate || ""}
-                          placeholder=""
-                          className="input input-bordered w-full"
+                          placeholder="Pick a start date"
+                          className="input input-bordered w-full bg-[#191919] text-white"
                           required
                         />
                       </div>
                       <div className="">
                         <label className="label">
-                          <span className="label-text text-xl font-normal ">
-                            Pick End Date
-                          </span>
+                          <span className="label-text text-xl font-normal text-white">Pick End Date</span>
                         </label>
                         <input
                           name="endDate"
@@ -283,16 +272,14 @@ const CarDetails = () => {
                             setEndDate(e.target.value);
                           }}
                           min={startDate || today}
-                          placeholder=""
-                          className="input input-bordered w-full"
+                          placeholder="Pick an end date"
+                          className="input input-bordered w-full bg-[#191919] text-white"
                           required
                         />
                       </div>
                       <div className="">
                         <label className="label">
-                          <span className="label-text text-xl font-normal ">
-                            Total Price: ${totalPrice}
-                          </span>
+                          <span className="label-text text-xl font-normal text-white">Total Price: ${totalPrice}</span>
                         </label>
                       </div>
                     </div>
@@ -302,17 +289,18 @@ const CarDetails = () => {
             </div>
           ) : (
             <div className="flex justify-end items-center gap-4">
-              <p className="text-center my-5 text-sm">
+              <p className="text-center my-5 text-sm text-white">
                 Please Login to Book Your Ride
               </p>
               <Link to="/login">
-                <button className="btn bg-primary ">Login</button>
+                <button className="btn bg-primary">Login</button>
               </Link>
             </div>
           )}
         </div>
       </div>
     </div>
+
   )
 }
 
