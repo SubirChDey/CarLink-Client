@@ -21,7 +21,8 @@ const MyCars = () => {
 
   const fetchCars = () => {
     setLoading(true);
-    axios.get(`${import.meta.env.VITE_API_URL}/my-cars/${user.email}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/my-cars?email=${user.email}`)
+    // axios.get(`${import.meta.env.VITE_API_URL}/my-cars/${user.email}`)
       .then(response => {
         setAddedCars(response.data);
         setLoading(false);

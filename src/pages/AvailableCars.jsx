@@ -16,7 +16,7 @@ const AvailableCars = () => {
   }, [])
 
   const fetchAllCars = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cars`)
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cars?availability=Available`)    
     setCars(data)
   }
 

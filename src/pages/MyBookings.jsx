@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Swal from "sweetalert2";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [myBookings, setMyBookings] = useState([]);
+  
 
   if (!user) {
     return <LoadingSpinner></LoadingSpinner>
@@ -38,6 +40,43 @@ const MyBookings = () => {
       default:
         return "bg-gray-500";
     }
+  };
+
+
+  const handleDeleteBooking = id => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${import.meta.env.VITE_API_URL}/carBooking/${id}`)
+          .then(response => {
+            console.log(response.data);
+            
+            if (response.data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Car has been deleted successfully.",
+                icon: "success"
+              });
+              setMyBookings(prevCars => prevCars.filter(car => car._id !== id));
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            Swal.fire({
+              icon: "error",
+              title: "Delete Failed",
+              text: "Failed to delete the car. Please try again."
+            });
+          });
+      }
+    });
   };
 
 
@@ -96,7 +135,7 @@ const MyBookings = () => {
                       <button className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm">
                         Modify
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">
+                      <button onClick={() => handleDeleteBooking(booking._id)} className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">
                         Cancel
                       </button>
                     </td>

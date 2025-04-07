@@ -28,7 +28,7 @@ const AvailableCarsCard = ({ car }) => {
 
                 <div className="flex items-center gap-2 text-sm text-gray-300">
                     <FaCalendarAlt className="text-red-500" />
-                    <span>Available {car.availabilityDate}</span>
+                    <span> {car.availability}</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-300">
