@@ -10,8 +10,8 @@ const AvailableCarsListCard = ({ car }) => {
         <div className="text-white bg-black border-2 border-white hover:shadow-xl transform hover:scale-105 transition-all duration-300 rounded-xl">
             <div className="block md:flex justify-between p-6 items-center rounded-xl shadow-xl">
                 <div className="flex gap-4 items-center">
-                    <div className='flex flex-col justify-center items-center mb-2'>
-                        <img className="w-40" src={carImage} alt="" />
+                    <div className='flex flex-col justify-center items-center mb-2 h-24'>
+                        <img className="w-40 h-full object-center" src={carImage} alt="" />
                     </div>
                     <div>
                         <h3 className="text-2xl text-red-500 font-semibold"> {carModel}</h3>
