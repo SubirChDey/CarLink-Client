@@ -7,6 +7,8 @@ import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Swal from "sweetalert2";
 import { IoCalendarNumberSharp } from "react-icons/io5";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
@@ -15,6 +17,7 @@ const MyBookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
+  const COLORS = ['#FACC15', '#22C55E', '#EF4444'];
 
 
   if (!user) {
@@ -127,11 +130,21 @@ const MyBookings = () => {
     });
   };
 
+  const bookingStatusData = [
+    { name: 'Pending', value: myBookings.filter(b => b.bookingStatus === 'Pending').length },
+    { name: 'Confirmed', value: myBookings.filter(b => b.bookingStatus === 'Confirmed').length },
+    { name: 'Cancelled', value: myBookings.filter(b => b.bookingStatus === 'Cancelled').length },
+  ];
+
+
 
   return (
     <div>
       <div className="p-4 min-h-screen bg-[#191919] text-white">
-        <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
+        <div className="text-center my-8">
+          <h2 className="text-3xl font-bold mb-4">My Bookings</h2>
+          <p className="text-gray-300">Each booking is not just a ride — it's a step toward your next adventure. Keep moving forward.</p>
+        </div>
 
         {myBookings.length === 0 ? (
           <p className="text-gray-400">You haven't booked any car yet.</p>
@@ -192,6 +205,29 @@ const MyBookings = () => {
                 ))}
               </tbody>
             </table>
+            <div className="my-10 bg-black p-4 rounded-lg shadow-lg">
+              <h3 className="text-xl font-semibold text-white mb-4 text-center">Booking Status Summary</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={bookingStatusData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label
+                  >
+                    {bookingStatusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
           </div>
         )}
       </div>
