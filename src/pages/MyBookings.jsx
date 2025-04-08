@@ -1,16 +1,21 @@
 import { format } from "date-fns";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Swal from "sweetalert2";
+import { IoCalendarNumberSharp } from "react-icons/io5";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [myBookings, setMyBookings] = useState([]);
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+
 
   if (!user) {
     return <LoadingSpinner></LoadingSpinner>
@@ -42,6 +47,49 @@ const MyBookings = () => {
     }
   };
 
+  const handleModifyBooking = (booking) => {
+    setSelectedBooking(booking);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveDateChange = () => {
+    const startInput = document.querySelector("#startDateInput");
+    const endInput = document.querySelector("#endDateInput");
+
+    const newStartDate = startInput?.value;
+    const newEndDate = endInput?.value;
+
+    if (!newStartDate || !newEndDate || !selectedBooking?._id) {
+      return toast.error("Please select valid dates.");
+    }
+
+    axios.put(`${import.meta.env.VITE_API_URL}/carBooking/${selectedBooking._id}`, {
+      startDateTime: newStartDate,
+      endDateTime: newEndDate
+    })
+      .then(res => {
+        if (res.data.modifiedCount > 0) {
+          setMyBookings(prev =>
+            prev.map(booking =>
+              booking._id === selectedBooking._id
+                ? { ...booking, startDateTime: newStartDate, endDateTime: newEndDate }
+                : booking
+            )
+          );
+          setIsModalOpen(false);
+          Swal.fire("Success", "Booking date updated!", "success");
+        } else {
+          Swal.fire("No Change", "No updates were made.", "info");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire("Error", "Something went wrong!", "error");
+      });
+  };
+
+
+
 
   const handleDeleteBooking = id => {
     Swal.fire({
@@ -57,14 +105,14 @@ const MyBookings = () => {
         axios.delete(`${import.meta.env.VITE_API_URL}/carBooking/${id}`)
           .then(response => {
             console.log(response.data);
-            
+
             if (response.data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
-                text: "Car has been deleted successfully.",
+                text: "Booking has been cancelled",
                 icon: "success"
               });
-              setMyBookings(prevCars => prevCars.filter(car => car._id !== id));
+              setMyBookings(prevBookings => prevBookings.filter(book => book._id !== id));
             }
           })
           .catch(error => {
@@ -72,7 +120,7 @@ const MyBookings = () => {
             Swal.fire({
               icon: "error",
               title: "Delete Failed",
-              text: "Failed to delete the car. Please try again."
+              text: "Failed to cancel booking. Please try again."
             });
           });
       }
@@ -131,11 +179,12 @@ const MyBookings = () => {
                         {booking.bookingStatus}
                       </span>
                     </td>
-                    <td className="px-4 py-2 border border-gray-700 space-x-2">
-                      <button className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm">
-                        Modify
+                    <td className="flex flex-col gap-4 px-4 py-2 border border-gray-700 space-x-2">
+                      <button onClick={() => handleModifyBooking(booking)}
+                        className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm cursor-pointer">
+                        <IoCalendarNumberSharp /> Modify Date
                       </button>
-                      <button onClick={() => handleDeleteBooking(booking._id)} className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">
+                      <button onClick={() => handleDeleteBooking(booking._id)} className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm cursor-pointer">
                         Cancel
                       </button>
                     </td>
@@ -146,6 +195,51 @@ const MyBookings = () => {
           </div>
         )}
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white text-black p-6 rounded shadow-lg w-[90%] max-w-md">
+            <h3 className="text-xl font-semibold mb-4">Modify Booking Date</h3>
+
+            <label className="block mb-2">
+              Start Date:
+              <input
+                id="startDateInput"
+                type="datetime-local"
+                defaultValue={selectedBooking?.startDateTime?.slice(0, 16)}
+                className="w-full p-2 border rounded mt-1"
+              />
+            </label>
+
+            <label className="block mb-4">
+              End Date:
+              <input
+                id="endDateInput"
+                type="datetime-local"
+                defaultValue={selectedBooking?.endDateTime?.slice(0, 16)}
+                ref={endDateRef}
+                className="w-full p-2 border rounded mt-1"
+              />
+            </label>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 rounded"
+              >
+                Cancel
+              </button>
+              <button onClick={handleSaveDateChange}
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
     </div>
   )
 }

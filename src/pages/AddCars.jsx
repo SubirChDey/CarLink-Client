@@ -34,9 +34,6 @@ const AddCars = () => {
 
     console.log(data);
 
-
-
-
   }
 
 

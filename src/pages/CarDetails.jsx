@@ -132,7 +132,7 @@ const CarDetails = () => {
           <h1 className={`text-2xl lg:text-5xl font-bold text-white`}>{carModel}</h1>
         </div>
         <div className="card p-6 w-11/12 mx-auto lg:max-w-screen-md shrink-0 shadow-2xl border bg-black text-white">
-          
+
           <div className="flex flex-col-reverse md:grid md:grid-cols-1 gap-6">
             <div className="w-full h-80 md:h-96 lg:h-[30rem]">
               <img
@@ -214,7 +214,7 @@ const CarDetails = () => {
                 <span>{userEmail}</span>
               </div>
             </div>
-         
+
             <div>
               <p className="text-lg text-white">Features:</p>
               {renderFeatures(features)}
