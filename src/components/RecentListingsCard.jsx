@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
 import React from 'react'
-import { FaCalendarAlt, FaCar, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaCar} from 'react-icons/fa';
 import { WiTime3 } from 'react-icons/wi';
 import { Link } from 'react-router-dom';
 

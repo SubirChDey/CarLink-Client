@@ -4,6 +4,7 @@ import { AuthContext } from "../provider/AuthProvider"
 import { FaUserTie } from "react-icons/fa"
 import { Tooltip } from "react-tooltip"
 import { RxHamburgerMenu } from "react-icons/rx";
+import 'react-tooltip/dist/react-tooltip.css';
 
 const NavBar = () => {
     const { user, logOut } = useContext(AuthContext)
@@ -34,7 +35,7 @@ const NavBar = () => {
 
                         </ul>
                     </div>
-                    <Link to={'/'} className="font-bold text-xl"><span>Car</span><span className="text-[#FF3600]">Link</span></Link>
+                    <Link to={'/'} className="font-bold text-xl flex items-center justify-center"> <img src="logo.webp" className="w-8 h-8" alt="CarLink" /><span>Car</span><span className="text-[#FF3600]">Link</span></Link>
                     
                     
                 </div>
@@ -59,7 +60,7 @@ const NavBar = () => {
                 <div className="navbar-end">
                     {
                         user && user?.email ? <div className="flex gap-2 items-center"> <img className="rounded-full w-10 h-10 hidden md:block" data-tooltip-id="tooltip-settings"
-                            data-tooltip-content={`Hi ${user.displayName || 'User'}! `} src={user?.photoURL} alt="" /> <Link to='/' className="btn btn-success text-white" onClick={logOut}> Log Out</Link></div> : <div className="flex gap-2 items-center"><FaUserTie className="w-10 h-10 hidden md:block"></FaUserTie> <Link to='/login' className="btn btn-success text-white">Login</Link></div>
+                            data-tooltip-content={`Hi ${user.displayName || 'User'}! `} src={user?.photoURL} alt="" /> <Link to='/' className="btn text-white bg-gradient-to-r from-[#FF3600] to-[#ff3700d7]  hover:bg-[#ff3700b4]" onClick={logOut}> Log Out</Link></div> : <div className="flex gap-2 items-center"><FaUserTie className="w-10 h-10 hidden md:block"></FaUserTie> <Link to='/login' className="btn btn-success text-white bg-gradient-to-r from-[#FF3600] to-[#ff3700d7] hover:bg-[#ff3700b4]">Login</Link></div>
                     }
                     <Tooltip id="tooltip-settings" place="bottom" effect="solid" />
                 </div>
