@@ -6,7 +6,7 @@ const MainLayouts = () => {
   return (
     <div className="flex flex-col min-h-screen">
         <NavBar></NavBar>
-        <main className="flex-grow"><Outlet></Outlet></main>
+        <main className="flex-grow bg-[#191919]"><Outlet></Outlet></main>
         <Footer></Footer>
     </div>
   )
