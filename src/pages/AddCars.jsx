@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const AddCars = () => {
@@ -34,6 +35,22 @@ const AddCars = () => {
 
     console.log(data);
 
+    if (data.insertedId || data.success) {
+      Swal.fire({
+        title: "Success!",
+        text: "Car added to list.",
+        icon: "success"
+      });
+      form.reset();
+      setStartDate(new Date());
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Error",
+        icon: "warning"
+      });
+    }
+
   }
 
 
@@ -41,8 +58,7 @@ const AddCars = () => {
 
   return (
     <div className="bg-[#191919] pb-20">
-      <div
-        data-aos="flip-down"
+      <div        
         className="w-11/12 md:w-1/2 mx-auto py-6 md:py-10 space-y-4"
       >
         <h1 className="text-4xl font-bold text-center text-[#ff3700d7]">
@@ -63,6 +79,7 @@ const AddCars = () => {
               Car Model
             </label>
             <input
+              required
               type="text"
               name="carModel"
               id="carModel"
@@ -79,6 +96,7 @@ const AddCars = () => {
               Daily Rental Price
             </label>
             <input
+              required
               type="number"
               name="dailyRentalPrice"
               id="dailyRentalPrice"
@@ -96,6 +114,7 @@ const AddCars = () => {
               Added Date
             </label>
             <DatePicker
+              required              
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               className="bg-[#1F2937] text-white px-4 py-2 rounded-md w-full"
@@ -110,6 +129,7 @@ const AddCars = () => {
               Availability
             </label>
             <select
+              required
               type="text"
               name="availability"
               id="availability"
@@ -131,6 +151,7 @@ const AddCars = () => {
               Vehicle Registration Number
             </label>
             <input
+              required
               type="text"
               name="vehicleRegistrationNumber"
               id="vehicleRegistrationNumber"
@@ -147,6 +168,7 @@ const AddCars = () => {
               Features
             </label>
             <input
+              required
               type="text"
               name="features"
               id="features"
@@ -163,6 +185,7 @@ const AddCars = () => {
               Description
             </label>
             <textarea
+              required
               name="description"
               id="description"
               placeholder="Enter description"
@@ -179,6 +202,7 @@ const AddCars = () => {
               Booking Count
             </label>
             <input
+              required
               type="text"
               name="bookingCount"
               id="bookingCount"
@@ -196,6 +220,7 @@ const AddCars = () => {
               Image
             </label>
             <input
+              required
               type="url"
               name="carImage"
               id="carImage"
@@ -212,6 +237,7 @@ const AddCars = () => {
               Location
             </label>
             <input
+              required
               type="text"
               name="location"
               id="location"
@@ -220,7 +246,7 @@ const AddCars = () => {
             />
           </div>
 
-          <button className="block w-full p-2 cursor-pointer text-center rounded-sm bg-gray-500 text-white hover:font-bold hover:bg-gradient-to-l transition-all duration-300 border-none"> Add Car</button>
+          <button className="block w-full p-2 cursor-pointer text-center rounded-sm text-white bg-gradient-to-r from-[#FF3600] to-[#ff3700d7]  hover:bg-[#ff3700b4] hover:font-bold hover:bg-gradient-to-l transition-all duration-300 border-none"> Add Car</button>
         </form>
       </div>
     </div>

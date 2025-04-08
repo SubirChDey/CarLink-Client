@@ -178,7 +178,7 @@ const CarDetails = () => {
                         </td>
                         <td className="font-bold p-2">Availability :</td>
                         <td className="p-2">
-                          {availability === true ? "Available" : "Unavailable"}
+                          {availability === "Available" ? "Available" : "Unavailable"}
                         </td>
                       </tr>
                       {/* row 5 */}
@@ -226,12 +226,12 @@ const CarDetails = () => {
           {user ? (
             <div>
               <form onSubmit={handleBooking}>
-                {availability ? (
+                {availability === "Available" ? (
                   <div className="flex justify-end items-center gap-4">
                     <p className="text-center my-5 text-sm text-white">
                       Please Fill the Form below before Confirming Booking
                     </p>
-                    <button type="submit" onClick={handleBookNow} className="btn bg-primary">
+                    <button type="submit" onClick={handleBookNow} className="btn text-white bg-gradient-to-r from-[#FF3600] to-[#ff3700d7]  hover:bg-[#ff3700b4]">
                       <SiBigcartel />
                       Book Now
                     </button>

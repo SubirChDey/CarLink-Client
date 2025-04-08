@@ -18,11 +18,12 @@ const MyCars = () => {
   const [open, setOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
   const myRef = useRef(null);
+  const [priceFilter, setPriceFilter] = useState("all");
 
   const fetchCars = () => {
     setLoading(true);
     axios.get(`${import.meta.env.VITE_API_URL}/my-cars?email=${user.email}`)
-    // axios.get(`${import.meta.env.VITE_API_URL}/my-cars/${user.email}`)
+      // axios.get(`${import.meta.env.VITE_API_URL}/my-cars/${user.email}`)
       .then(response => {
         setAddedCars(response.data);
         setLoading(false);
@@ -39,6 +40,15 @@ const MyCars = () => {
       fetchCars();
     }
   }, [user?.email]);
+
+  const filteredCars = [...addedCars];
+
+if (priceFilter === "low") {
+  filteredCars.sort((a, b) => a.dailyRentalPrice - b.dailyRentalPrice);
+} else if (priceFilter === "high") {
+  filteredCars.sort((a, b) => b.dailyRentalPrice - a.dailyRentalPrice);
+}
+
 
 
   const handleDeleteCar = id => {
@@ -99,7 +109,9 @@ const MyCars = () => {
         myRef={myRef}
       />
 
-      {addedCars.length === 0 ?
+
+
+      {filteredCars.length === 0 ?
         <div>
           <div className="text-center text-gray-400 text-xl">
             You haven&apos;t added any cars yet.
@@ -110,77 +122,102 @@ const MyCars = () => {
         </div>
         :
 
-        <div className="overflow-x-auto mt-6 w-11/12 mx-auto">
-          <table className="table-auto w-full bg-black border border-gray-700 rounded-lg shadow-lg animate__animated animate__fadeInUp">
-            <thead className="bg-black">
-              <tr>
-                <th className="px-4 py-4 text-white text-center text-xl">Car Image</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Car Model</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Daily Rental Price</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Location</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Booking Count</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Date Added</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Status</th>
-                <th className="px-4 py-4 text-white text-center text-xl">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {addedCars.map((car) => (
-                <tr key={car._id} className="border-t border-gray-700 hover:bg-[#2C2C2C] transition-colors duration-200">
-                  <td className="px-4 py-4">
-                    <img
-                      src={car.carImage}
-                      alt={car.carModel}
-                      className="w-28 h-20 object-cover rounded mx-auto"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/placeholder-car.png";
-                      }}
-                    />
-                  </td>
-                  <td className="px-4 py-4 text-gray-300 text-center font-semibold">
-                    {car.carModel}
-                  </td>
-                  <td className="px-4 py-4 text-gray-300 text-center font-semibold">
-                    ${car.dailyRentalPrice}
-                  </td>
-                  <td className="px-4 py-4 text-gray-300 text-center font-semibold">
-                    {car.location}
-                  </td>
-                  <td className="px-4 py-4 text-gray-300 text-center font-semibold">
-                    {car.bookingCount || 0}
-                  </td>
-                  <td className="px-4 py-4 text-gray-300 text-center font-semibold">
-                    {format(new Date(car.addedDate), 'MM, dd, yyyy')}
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${car.bookingStatus === "Booked"
-                      ? "bg-red-200 text-red-800"
-                      : "bg-green-200 text-green-800"
-                      }`}>
-                      {car.bookingStatus || "Available"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <button
-                      onClick={() => handleUpdateCar(car)}
-                      className="flex items-center font-semibold text-blue-400 hover:text-blue-600 mx-auto transition-colors duration-200"
-                    >
-                      <BiEdit className="mr-2 w-5 h-5"></BiEdit>
-                      Update
-                    </button>
-                    <button
-                      onClick={() => handleDeleteCar(car._id)}
-                      className="flex items-center font-semibold text-red-400 hover:text-red-600 mt-2 mx-auto transition-colors duration-200"
-                    >                      
-                      <RiDeleteBin4Fill className="mr-2 w-5 h-5"></RiDeleteBin4Fill>
-                      Delete
-                    </button>
-                  </td>
+        <div>
+          <div className="text-center mt-6">
+            <h3 className="text-3xl text-white font-bold">My Cars</h3>
+            <p></p>
+          </div>
+          <div>
+            <div className="text-right text-white w-11/12 mx-auto mt-4">
+              <label htmlFor="priceFilter" className="text-white mr-2">Filter by Price:</label>
+              <select
+                id="priceFilter"
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(e.target.value)}
+                className="px-3 py-1 rounded text-white bg-black"
+              >
+                <option value="all">All</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div className="text-right text-white w-11/12 mx-auto mt-4">
+
+            <table className="table-auto w-full bg-black border border-gray-700 rounded-lg shadow-lg animate__animated animate__fadeInUp">
+              <thead className="bg-black">
+                <tr>
+                  <th className="px-4 py-4 text-white text-center text-xl">Car Image</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Car Model</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Daily Rental Price</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Location</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Booking Count</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Date Added</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Status</th>
+                  <th className="px-4 py-4 text-white text-center text-xl">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredCars.map((car) => (
+                  <tr key={car._id} className="border-t border-gray-700 hover:bg-[#2C2C2C] transition-colors duration-200">
+                    <td className="px-4 py-4">
+                      <img
+                        src={car.carImage}
+                        alt={car.carModel}
+                        className="w-28 h-20 object-cover rounded mx-auto"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/placeholder-car.png";
+                        }}
+                      />
+                    </td>
+                    <td className="px-4 py-4 text-gray-300 text-center font-semibold">
+                      {car.carModel}
+                    </td>
+                    <td className="px-4 py-4 text-gray-300 text-center font-semibold">
+                      ${car.dailyRentalPrice}
+                    </td>
+                    <td className="px-4 py-4 text-gray-300 text-center font-semibold">
+                      {car.location}
+                    </td>
+                    <td className="px-4 py-4 text-gray-300 text-center font-semibold">
+                      {car.bookingCount || 0}
+                    </td>
+                    <td className="px-4 py-4 text-gray-300 text-center font-semibold">
+                      {format(new Date(car.addedDate), 'MM, dd, yyyy')}
+                    </td>
+                    <td className="px-4 py-4 text-center">
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${car.bookingStatus === "Booked"
+                        ? "bg-red-200 text-red-800"
+                        : "bg-green-200 text-green-800"
+                        }`}>
+                        {car.bookingStatus || "Available"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 text-center">
+                      <button
+                        onClick={() => handleUpdateCar(car)}
+                        className="flex items-center font-semibold text-blue-400 hover:text-blue-600 mx-auto transition-colors duration-200"
+                      >
+                        <BiEdit className="mr-2 w-5 h-5"></BiEdit>
+                        Update
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCar(car._id)}
+                        className="flex items-center font-semibold text-red-400 hover:text-red-600 mt-2 mx-auto transition-colors duration-200"
+                      >
+                        <RiDeleteBin4Fill className="mr-2 w-5 h-5"></RiDeleteBin4Fill>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       }
 

@@ -19,7 +19,7 @@ const RecentListings = () => {
         <div>
             <div className='text-center'>
                 <h3 className='text-2xl lg:text-5xl font-bold text-white'>Recent Listings</h3>
-                <p className='font-medium px-4 text-white'>New beginnings are just a click away — explore the latest listings made for you.</p>
+                <p className='font-medium px-4 text-gray-300 pt-4'>New beginnings are just a click away — explore the latest listings made for you.</p>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 m-3'>
                 {

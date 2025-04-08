@@ -12,7 +12,7 @@ const SpecialOffers = () => {
 
     return (
         <div className="my-4 md:my-6 lg:my-20 container mx-auto px-4">
-            <div className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 mb-10">
+            <div data-aos="zoom-in-up" className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 mb-10">
                 <h1 className="text-2xl lg:text-5xl font-bold text-white">
                     Special Offers Just for You
                 </h1>
@@ -23,13 +23,13 @@ const SpecialOffers = () => {
 
             <div className="w-11/12 mx-auto space-y-10">
                 {/* Card 1 */}
-                <div
+                <div data-aos="zoom-in-up"
                     className="card bg-black w-full grid grid-cols-1 md:grid-cols-2
           gap-6 shadow-xl p-6 hover:scale-[1.02] transition-all duration-300 ease-in-out rounded-2xl"
                 >
                     <figure>
                         <img
-                            src="https://i.ibb.co.com/6vVSvqT/Untitled-design-1.jpg"
+                            src="https://i.ibb.co.com/zVxvPXYM/multy-story-car-parking-1172561-93.jpg"
                             alt="Weekend Escape"
                             className="rounded-xl"
                         />
@@ -56,7 +56,7 @@ const SpecialOffers = () => {
                 </div>
 
                 {/* Card 2 */}
-                <div
+                <div data-aos="zoom-in-up"
                     className="card bg-black w-full flex-col-reverse md:grid md:grid-cols-2
           gap-6 shadow-xl p-6 hover:scale-[1.02] transition-all duration-300 ease-in-out rounded-2xl"
                 >
@@ -81,7 +81,7 @@ const SpecialOffers = () => {
 
                     <figure>
                         <img
-                            src="https://i.ibb.co.com/NLJjkpY/Untitled-design-2-1.jpg"
+                            src="https://i.ibb.co.com/r14V397/cars-parked-underground-parking-lot-598320-4133.jpg"
                             alt="Holiday Specials"
                             className="rounded-xl"
                         />
@@ -89,13 +89,13 @@ const SpecialOffers = () => {
                 </div>
 
                 {/* Card 3 */}
-                <div
+                <div data-aos="zoom-in-up"
                     className="card bg-black w-full grid grid-cols-1 md:grid-cols-2
           gap-6 shadow-xl p-6 hover:scale-[1.02] transition-all duration-300 ease-in-out rounded-2xl"
                 >
                     <figure>
                         <img
-                            src="https://i.ibb.co.com/x3kk0JL/Untitled-design-3-1.jpg"
+                            src="https://i.ibb.co.com/5Xf57Jzb/car-driving-on-beautiful-road-600nw-2473243119.webp"
                             alt="Early Bird"
                             className="rounded-xl"
                         />

@@ -72,8 +72,8 @@ const Login = () => {
             <div className="flex-1/2">
                 <div className="py-5">
                     <div className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 ">
-                        <h1 className="text-2xl lg:text-5xl font-extrabold ">Login</h1>
-                        <p className="font-medium text-gray-600 my-4">Login today to unlock exclusive cars, model, and recommendations for your favorite cars.</p>
+                        <h1 className="text-2xl text-gray-100 lg:text-5xl font-extrabold ">Login</h1>
+                        <p className="font-medium text-gray-300 my-4">Login today to unlock exclusive cars, model, and recommendations for your favorite cars.</p>
                     </div>
 
                     <div className="card w-11/12 mx-auto bg-base-300 lg:max-w-screen-md shrink-0 items-center">
