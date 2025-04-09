@@ -7,11 +7,11 @@ import Swal from "sweetalert2";
 import CarUpdateModal from "../components/CarUpdateModal";
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin4Fill } from "react-icons/ri";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const MyCars = () => {
 
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user } = useContext(AuthContext);  
 
   const [addedCars, setAddedCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,9 +20,15 @@ const MyCars = () => {
   const myRef = useRef(null);
   const [priceFilter, setPriceFilter] = useState("all");
 
+  if(!user) {
+    return <LoadingSpinner></LoadingSpinner>
+  }
+
   const fetchCars = () => {
     setLoading(true);
-    axios.get(`${import.meta.env.VITE_API_URL}/my-cars?email=${user.email}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/my-cars?email=${user.email}`,
+      { withCredentials: true }
+    )
       // axios.get(`${import.meta.env.VITE_API_URL}/my-cars/${user.email}`)
       .then(response => {
         setAddedCars(response.data);
@@ -31,7 +37,6 @@ const MyCars = () => {
       .catch(error => {
         console.error(error);
         setLoading(false);
-        // ErrorToaster("Failed to fetch your added cars");
       });
   };
 
@@ -43,11 +48,11 @@ const MyCars = () => {
 
   const filteredCars = [...addedCars];
 
-if (priceFilter === "low") {
-  filteredCars.sort((a, b) => a.dailyRentalPrice - b.dailyRentalPrice);
-} else if (priceFilter === "high") {
-  filteredCars.sort((a, b) => b.dailyRentalPrice - a.dailyRentalPrice);
-}
+  if (priceFilter === "low") {
+    filteredCars.sort((a, b) => a.dailyRentalPrice - b.dailyRentalPrice);
+  } else if (priceFilter === "high") {
+    filteredCars.sort((a, b) => b.dailyRentalPrice - a.dailyRentalPrice);
+  }
 
 
 

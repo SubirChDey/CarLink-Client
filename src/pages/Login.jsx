@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { AuthContext } from "../provider/AuthProvider";
+import axios from "axios";
 
 
 
@@ -53,7 +54,7 @@ const Login = () => {
     };
 
     const handleGoogleLogin = () => {
-        googleLogin()
+       googleLogin()        
             .then(() => {
                 Swal.fire({
                     position: "top-center",

@@ -26,7 +26,9 @@ const MyBookings = () => {
 
   useEffect(() => {
     if (user?.email) {
-      axios.get(`${import.meta.env.VITE_API_URL}/carBooking?email=${user.email}`)
+      axios.get(`${import.meta.env.VITE_API_URL}/carBooking?email=${user.email}`,
+        {withCredentials: true}
+      )
         .then((res) => {
           setMyBookings(res.data);
         })

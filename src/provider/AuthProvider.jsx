@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -8,13 +9,13 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);  
+    const [loading, setLoading] = useState(true);
 
 
     const createNewUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
-        
+
     }
 
     const userLogin = (email, password) => {
@@ -22,10 +23,10 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-    const googleLogin =() => {
+    const googleLogin = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider)
-        
+
     }
 
     const manageProfile = (name, image) => {
@@ -36,7 +37,10 @@ const AuthProvider = ({ children }) => {
 
     const logOut = () => {
         setLoading(true);
-        return signOut(auth);
+        return signOut(auth)
+            // .then(() => {
+            //     setUser(null);
+            // })
     }
 
 
@@ -52,9 +56,24 @@ const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+
+            if (currentUser?.email) {
+                setUser(currentUser);
+                const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+                    email: currentUser?.email
+                },
+                    { withCredentials: true })
+                console.log(data)
+            }
+            else {
+                setUser(currentUser);
+                const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/logout`,
+                    { withCredentials: true })
+            }
             setLoading(false);
+
+
         });
         return () => {
             unsubscribe();

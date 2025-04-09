@@ -4,11 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
 const AddCars = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -24,7 +26,7 @@ const AddCars = () => {
     const carImage = form.carImage.value
     const location = form.location.value
     const userEmail = user.email
-    const userName = user.displayName
+    const userName = user.displayName  
 
     const formData = {
       carModel, dailyRentalPrice, vehicleRegistrationNumber, addedDate, availability, features, description, bookingCount, carImage, location, userEmail, userName
@@ -33,7 +35,6 @@ const AddCars = () => {
 
     const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/add-cars`, formData)
 
-    console.log(data);
 
     if (data.insertedId || data.success) {
       Swal.fire({
@@ -43,6 +44,7 @@ const AddCars = () => {
       });
       form.reset();
       setStartDate(new Date());
+      // navigate('/my-cars')
     } else {
       Swal.fire({
         title: "Error!",
@@ -50,6 +52,7 @@ const AddCars = () => {
         icon: "warning"
       });
     }
+
 
   }
 
