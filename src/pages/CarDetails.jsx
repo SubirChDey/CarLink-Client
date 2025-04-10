@@ -2,32 +2,30 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaRegClock } from "react-icons/fa";
 import { IoMdPricetags } from "react-icons/io";
-import { MdAlternateEmail, MdEventAvailable, MdOutlineLocationOn } from "react-icons/md";
+import { MdAlternateEmail, MdErrorOutline, MdEventAvailable, MdOutlineLocationOn } from "react-icons/md";
 import { PiCurrencyDollarFill } from "react-icons/pi";
 import { SiBigcartel } from "react-icons/si";
 import { VscOpenPreview } from "react-icons/vsc";
 import { Link, useLoaderData, useNavigate } from "react-router-dom"
 import { AuthContext } from "../provider/AuthProvider";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const CarDetails = () => {
-  const carDetailsInfo = useLoaderData('');
+  const carDetailsInfo = useLoaderData();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [bookingError, setBookingError] = useState('');
+  const [correctDate, setCorrectDate] = useState('')
 
-  if (!user) {
-    return <LoadingSpinner />
-  }
+
+  if (!carDetailsInfo) return <LoadingSpinner />
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const today = new Date().toISOString().slice(0, 16);
   const { _id, carModel, carImage, vehicleRegistrationNumber, addedDate, dailyRentalPrice, availability, features, description, location, userEmail, userName } = carDetailsInfo;
-  console.log(carDetailsInfo);
-
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -52,10 +50,8 @@ const CarDetails = () => {
     );
   };
 
-
   const handleBooking = (e) => {
     e.preventDefault();
-    console.log({ startDate, endDate, totalPrice });
   };
 
   const handleBookNow = (e) => {
@@ -80,8 +76,15 @@ const CarDetails = () => {
       bookingStatus,
     };
 
-    if (user?.email === userEmail)
-      return toast.error("It is your car. You do not have to book this.");
+
+    if (user?.email === userEmail) {
+      return setBookingError(" You can't book your own car")
+    }
+    if (endDateTime <= startDateTime) {
+      return setCorrectDate("End date must be after start date.");
+    }
+
+
     Swal.fire({
       title: "Your Booking Summary",
       html: `Car: ${carModel} <br> 
@@ -116,9 +119,11 @@ const CarDetails = () => {
                 confirmButtonText: "Cool",
               });
               navigate(`/my-bookings`);
-              form.reset();
+              setStartDate("");
+              setEndDate("");
             }
           });
+
       }
     });
   };
@@ -228,9 +233,19 @@ const CarDetails = () => {
               <form onSubmit={handleBooking}>
                 {availability === "Available" ? (
                   <div className="flex justify-end items-center gap-4">
-                    <p className="text-center my-5 text-sm text-white">
-                      Please Fill the Form below before Confirming Booking
-                    </p>
+                    <div className="text-red-600">
+
+                      <div className="py-4">
+                        {
+                          bookingError && <p className="flex items-center gap-1"> <MdErrorOutline /> {bookingError} </p>
+                        }
+                        {
+                          correctDate && <p className="flex items-center gap-1"> <MdErrorOutline /> {correctDate} </p>
+                        }
+                      </div>
+
+                    </div>
+
                     <button type="submit" onClick={handleBookNow} className="btn text-white bg-gradient-to-r from-[#FF3600] to-[#ff3700d7]  hover:bg-[#ff3700b4]">
                       <SiBigcartel />
                       Book Now

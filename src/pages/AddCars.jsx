@@ -35,7 +35,6 @@ const AddCars = () => {
 
     const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/add-cars`, formData)
 
-
     if (data.insertedId || data.success) {
       Swal.fire({
         title: "Success!",
@@ -52,6 +51,7 @@ const AddCars = () => {
         icon: "warning"
       });
     }
+    navigate('/my-cars')
 
 
   }
@@ -119,6 +119,7 @@ const AddCars = () => {
             <DatePicker
               required              
               selected={startDate}
+              readOnly
               onChange={(date) => setStartDate(date)}
               className="bg-[#1F2937] text-white px-4 py-2 rounded-md w-full"
             />

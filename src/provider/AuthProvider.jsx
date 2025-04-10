@@ -38,9 +38,9 @@ const AuthProvider = ({ children }) => {
     const logOut = () => {
         setLoading(true);
         return signOut(auth)
-            // .then(() => {
-            //     setUser(null);
-            // })
+            .then(() => {
+                setUser(null);
+            })
     }
 
 
@@ -63,15 +63,15 @@ const AuthProvider = ({ children }) => {
                 const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
                     email: currentUser?.email
                 },
-                    { withCredentials: true })
-                console.log(data)
+                    { withCredentials: true })               
+                setLoading(false);
             }
             else {
-                setUser(currentUser);
+                // setUser(currentUser);
                 const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/logout`,
                     { withCredentials: true })
+                    setLoading(false);
             }
-            setLoading(false);
 
 
         });

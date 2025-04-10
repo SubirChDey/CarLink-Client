@@ -20,9 +20,6 @@ const MyCars = () => {
   const myRef = useRef(null);
   const [priceFilter, setPriceFilter] = useState("all");
 
-  if(!user) {
-    return <LoadingSpinner></LoadingSpinner>
-  }
 
   const fetchCars = () => {
     setLoading(true);

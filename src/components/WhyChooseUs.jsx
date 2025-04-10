@@ -1,8 +1,19 @@
+import Aos from "aos";
+import { useEffect } from "react";
 import { FcCustomerSupport } from "react-icons/fc";
+import 'aos/dist/aos.css';
 
 const WhyChooseUs = () => {
+
+        useEffect(() => {
+                Aos.init({
+                  duration: 1000,
+                  once: true,
+                });
+              }, []);
+
     return (
-        <div className="my-4 md:my-6 lg:my-20 container mx-auto bg-[#191919] text-white py-10">
+        <div data-aos='zoon-in-up' className="my-4 md:my-6 lg:my-20 container mx-auto bg-[#191919] text-white py-10">
             <div data-aos="zoom-in-up" className="md:w-8/12 mx-auto flex flex-col justify-center items-center text-center gap-4 mb-5">
                 <h1 className="text-2xl lg:text-5xl font-bold text-white">Why Choose Us</h1>
                 <p className="font-medium px-4 text-gray-300">

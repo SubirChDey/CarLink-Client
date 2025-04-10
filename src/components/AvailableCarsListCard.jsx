@@ -1,13 +1,23 @@
+import Aos from "aos";
+import { useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoMdPricetags } from "react-icons/io";
 import { TbBrandBooking } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import 'aos/dist/aos.css';
 
 const AvailableCarsListCard = ({ car }) => {
     const { carModel, carImage, location, dailyRentalPrice, bookingCount, availability } = car;
 
+    useEffect(() => {
+            Aos.init({
+              duration: 1000,
+              once: true,
+            });
+          }, []);
+    
     return (
-        <div className="text-white bg-black border-2 border-white hover:shadow-xl transform hover:scale-105 transition-all duration-300 rounded-xl">
+        <div data-aos='zoon-in-up' className="text-white bg-black border-2 border-white hover:shadow-xl transform hover:scale-105 transition-all duration-300 rounded-xl">
             <div className="block md:flex justify-between p-6 items-center rounded-xl shadow-xl">
                 <div className="flex gap-4 items-center">
                     <div className='flex flex-col justify-center items-center mb-2 h-24'>

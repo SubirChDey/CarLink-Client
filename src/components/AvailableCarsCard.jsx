@@ -1,9 +1,19 @@
+import Aos from "aos";
+import { useEffect } from "react";
 import { FaCalendarAlt, FaCar, FaMapMarkerAlt } from "react-icons/fa"
 import { Link } from "react-router-dom";
+import 'aos/dist/aos.css';
 
 const AvailableCarsCard = ({ car }) => {
-    const { carModel } = car || {}
-    console.log(car);
+    // const { carModel } = car || {}
+
+    useEffect(() => {
+        Aos.init({
+          duration: 1000,
+          once: true,
+        });
+      }, []);
+
 
     return (
 

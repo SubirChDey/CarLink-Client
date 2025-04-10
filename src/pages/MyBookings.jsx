@@ -109,8 +109,7 @@ const MyBookings = () => {
       if (result.isConfirmed) {
         axios.delete(`${import.meta.env.VITE_API_URL}/carBooking/${id}`)
           .then(response => {
-            console.log(response.data);
-
+            
             if (response.data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",

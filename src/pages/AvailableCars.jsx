@@ -16,7 +16,7 @@ const AvailableCars = () => {
   }, [])
 
   const fetchAllCars = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cars?availability=Available`)    
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/availableCars`)    
     setCars(data)
   }
 
@@ -88,12 +88,12 @@ const AvailableCars = () => {
               <input type="search" required placeholder="Search" value={searchTerm} onChange={handleSearch} />
             </label>
           </div>
-        </div>
-        
+        </div>        
         <div className={`${view === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : "grid grid-cols-1 gap-4 mx-4"}`}>
           {
             sortedCars.map(car => view === "grid" ? <AvailableCarsCard key={car._id} car={car} > </AvailableCarsCard> : <AvailableCarsListCard key={car._id} car={car} > </AvailableCarsListCard>)
           }
+          
         </div>
       </div>
     </div >
