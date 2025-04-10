@@ -18,7 +18,7 @@ const NavBar = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow bg-black">
                             <NavLink to={'/'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0"} >Home</NavLink>
 
                             <NavLink to={'/available-cars'} className={({ isActive }) => isActive ? "block py-2 px-3 text-white bg-red-600 rounded md:bg-transparent md:text-[#FF3500] md:p-0" : "block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-[#FF3500] md:p-0"} >Available Cars</NavLink>
